@@ -7,7 +7,8 @@ from concurrent_log_handler import ConcurrentRotatingFileHandler
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
-from config import config
+from backEnd.config import config
+from backEnd.explorer import users_blu
 
 db = SQLAlchemy()
 redis_store = None
@@ -30,11 +31,12 @@ def setup_log(environment):
 def create_app(environment):
     """通过指定environment，初始化不同配置的app"""
     setup_log(environment)
-    app = Flask(__name__)
+    app = Flask(__name__)  # 实例化app
+    app.register_blueprint(users_blu)  # 将用户模块蓝图注册到app
     app.config.from_object(config[environment])
     db.init_app(app)  # 配置数据库
     global redis_store
-    redis_store = redis.StrictRedis(host=config[environment].REDIS_HOST, port=config[environment].REDIS_PORT)
+    redis_store = redis.StrictRedis(host=config[environment].REDIS_HOST, port=config[environment].REDIS_PORT)  # 配置redis
     Session(app)  # 设置session的保存位置
     return app
 
