@@ -7,8 +7,8 @@ from concurrent_log_handler import ConcurrentRotatingFileHandler
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
-from backEnd.config import config
-from backEnd.explorer import users_blu
+from config import config
+from explorer.modules.users import users_blu
 
 db = SQLAlchemy()
 redis_store = None

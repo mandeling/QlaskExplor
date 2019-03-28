@@ -2,8 +2,8 @@
 # company: RuiDa Futures
 # author: zizle
 from flask import render_template, jsonify
-from backEnd.explorer import MachineInfo
 from . import users_blu
+from .utils import MachineInfo
 
 
 @users_blu.route("/")
