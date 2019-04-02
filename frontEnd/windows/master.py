@@ -2,7 +2,7 @@
 # company: RuiDa Futures
 # author: zizle
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QListWidgetItem
+from PyQt5.QtWidgets import QListWidgetItem, QMenuBar
 from widgets import FramelessWindow
 from windows import HomePage, GetMachineCodeWindow, DialogCoverWindow
 

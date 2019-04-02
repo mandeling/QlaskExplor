@@ -5,9 +5,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
-from PyQt5.QtGui import QFont, QEnterEvent, QPainter, QColor, QPen
+from PyQt5.QtGui import QFont, QEnterEvent, QPainter, QColor, QPen, QCursor
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel,\
-    QSpacerItem, QSizePolicy, QPushButton
+    QSpacerItem, QSizePolicy, QPushButton, QListWidget, QAction, QMenuBar
 
 
 # Created on 2018年4月30日
@@ -54,6 +54,68 @@ TitleBar {
     background-color: rgb(161, 73, 92);
 }
 """
+
+
+class MenuButton(QLabel):
+    def __init__(self, *args, **kwargs):
+        super(MenuButton, self).__init__(*args, **kwargs)
+        self.__init_ui()
+
+    def __init_ui(self):
+        self.list_view = QListWidget()
+
+    def enterEvent(self, *args, **kwargs):
+        print("鼠标进入菜单" + self.text())
+        print(self.pos())  # 按钮的位置
+        # 显示子菜单栏
+        menu_list = ["子菜单1", "子菜单2", "子菜单3"]
+        try:
+            self.list_view.clear()
+            self.list_view.addItems(menu_list)
+        except Exception as e:
+            print(e)
+        self.list_view.show()
+
+    def leaveEvent(self, *args, **kwargs):
+        # self.list_view.hide()
+        pass
+
+
+class MenuBar(QWidget):
+    def __init__(self, *args, **kwargs):
+        super(MenuBar, self).__init__(*args, **kwargs)
+        self.__init_ui()
+
+    def __init_ui(self):
+        # 支持qss设置背景
+        self.setAttribute(Qt.WA_StyledBackground, True)
+        style_sheet = """
+        MenuBar{
+            background-color: rgb(54, 157, 180);
+        }
+        
+        /*
+        QLabel {
+            background-color: rgb(54, 157, 180);
+            width: 40px;
+            height: 20px;
+            margin-right: 5px; 
+            color: #FFFFFF
+        }
+        */
+        """
+        layout = QHBoxLayout(self, spacing=0)
+        menu_bar = QMenuBar()
+        menu_1 = menu_bar.addMenu("菜单1")
+        menu_2 = menu_bar.addMenu("菜单2")
+        menu_1.addAction("子菜单1")
+        menu_2.addAction("子菜单1")
+        layout.addWidget(menu_bar)
+        # 右边伸缩条
+        layout.addSpacerItem(QSpacerItem(
+            40, 25, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        self.setStyleSheet(style_sheet)
+        self.setMinimumHeight(25)
 
 
 class TitleBar(QWidget):
@@ -121,7 +183,7 @@ class TitleBar(QWidget):
             self.buttonMaximum.setText('1')
             self.windowNormaled.emit()
 
-    def setHeight(self, height=38):
+    def setHeight(self, height=30):
         """设置标题栏高度"""
         self.setMinimumHeight(height)
         self.setMaximumHeight(height)
@@ -197,6 +259,7 @@ class FramelessWindow(QWidget):
         # 标题栏
         self.titleBar = TitleBar(self)
         layout.addWidget(self.titleBar)
+        layout.addWidget(MenuBar())
         # 信号槽
         self.titleBar.windowMinimumed.connect(self.showMinimized)
         self.titleBar.windowMaximumed.connect(self.showMaximized)
