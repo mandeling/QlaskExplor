@@ -56,31 +56,6 @@ TitleBar {
 """
 
 
-class MenuButton(QLabel):
-    def __init__(self, *args, **kwargs):
-        super(MenuButton, self).__init__(*args, **kwargs)
-        self.__init_ui()
-
-    def __init_ui(self):
-        self.list_view = QListWidget()
-
-    def enterEvent(self, *args, **kwargs):
-        print("鼠标进入菜单" + self.text())
-        print(self.pos())  # 按钮的位置
-        # 显示子菜单栏
-        menu_list = ["子菜单1", "子菜单2", "子菜单3"]
-        try:
-            self.list_view.clear()
-            self.list_view.addItems(menu_list)
-        except Exception as e:
-            print(e)
-        self.list_view.show()
-
-    def leaveEvent(self, *args, **kwargs):
-        # self.list_view.hide()
-        pass
-
-
 class MenuBar(QWidget):
     def __init__(self, *args, **kwargs):
         super(MenuBar, self).__init__(*args, **kwargs)
@@ -91,6 +66,9 @@ class MenuBar(QWidget):
         self.setAttribute(Qt.WA_StyledBackground, True)
         style_sheet = """
         MenuBar{
+            background-color: rgb(54, 157, 180);
+        }
+        QMenuBar {
             background-color: rgb(54, 157, 180);
         }
         
@@ -105,17 +83,16 @@ class MenuBar(QWidget):
         */
         """
         layout = QHBoxLayout(self, spacing=0)
-        menu_bar = QMenuBar()
-        menu_1 = menu_bar.addMenu("菜单1")
-        menu_2 = menu_bar.addMenu("菜单2")
-        menu_1.addAction("子菜单1")
-        menu_2.addAction("子菜单1")
-        layout.addWidget(menu_bar)
+        self.menu_bar = QMenuBar()
+        layout.addWidget(self.menu_bar)
         # 右边伸缩条
         layout.addSpacerItem(QSpacerItem(
             40, 25, QSizePolicy.Expanding, QSizePolicy.Minimum))
         self.setStyleSheet(style_sheet)
         self.setMinimumHeight(25)
+
+    def setTopMenu(self, str):
+        return self.menu_bar.addMenu(str)
 
 
 class TitleBar(QWidget):
@@ -258,8 +235,9 @@ class FramelessWindow(QWidget):
             self.Margins, self.Margins, self.Margins, self.Margins)
         # 标题栏
         self.titleBar = TitleBar(self)
+        self.menuBar = MenuBar()
         layout.addWidget(self.titleBar)
-        layout.addWidget(MenuBar())
+        layout.addWidget(self.menuBar)
         # 信号槽
         self.titleBar.windowMinimumed.connect(self.showMinimized)
         self.titleBar.windowMaximumed.connect(self.showMaximized)
