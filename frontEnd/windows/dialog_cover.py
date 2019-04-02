@@ -3,6 +3,7 @@
 # author: zizle
 from PyQt5.QtWidgets import QWidget,QPushButton, QVBoxLayout,QDialog, QLabel
 from PyQt5.QtCore import Qt
+from widgets import LoginDialog, RegisterDialog
 
 
 class MaskWidget(QWidget):
@@ -31,20 +32,27 @@ class DialogCoverWindow(QWidget):
 
     def __init_ui(self):
         layout = QVBoxLayout()
-        button = QPushButton("弹窗遮罩")
-        button.clicked.connect(self.show_dialog)
-        layout.addWidget(button)
+        button_1 = QPushButton("登录")
+        button_2 = QPushButton("注册")
+        button_1.clicked.connect(self.login_dialog)
+        button_2.clicked.connect(self.register_dialog)
+        layout.addWidget(button_1)
+        layout.addWidget(button_2)
         self.setLayout(layout)
 
-
-    def show_dialog(self):
-        dialog = QDialog(self)
-        dialog.resize(500,300)
-        dialog.setWindowTitle("功能测试弹窗遮罩")
+    def register_dialog(self):
+        dialog = RegisterDialog()
+        dialog.setWindowTitle("注册")
         dialog.setModal(True)
-        dialog_layout = QVBoxLayout()
-        dialog_layout.addWidget(QLabel('<font color="red">弹窗爽歪歪</font>'))
-        dialog.setLayout(dialog_layout)
+        mask = MaskWidget(self)
+        mask.show()
+        dialog.exec()
+        mask.close()
+
+    def login_dialog(self):
+        dialog = LoginDialog()
+        dialog.setWindowTitle("登录")
+        dialog.setModal(True)
         mask = MaskWidget(self)
         mask.show()
         dialog.exec()

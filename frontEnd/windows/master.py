@@ -2,7 +2,7 @@
 # company: RuiDa Futures
 # author: zizle
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QListWidgetItem
+from PyQt5.QtWidgets import QListWidgetItem
 from widgets import FramelessWindow
 from windows import HomePage, GetMachineCodeWindow, DialogCoverWindow
 
@@ -19,7 +19,6 @@ class MainWindow(FramelessWindow):
         self.home = HomePage()  # 设置主页
         self.home.setListItem(QListWidgetItem("获取机器码"))  # 设置功能
         self.home.setListItem(QListWidgetItem("显示弹窗遮罩"))  # 设置功能
-        # self.home.view_layout.addWidget(QWidget())
         self.home.function_list.clicked.connect(self.choose_function)
         self.setWidget(self.home)  # 显示窗口内容
 

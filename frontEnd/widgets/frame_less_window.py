@@ -56,9 +56,7 @@ TitleBar {
 """
 
 
-
 class TitleBar(QWidget):
-
     # 窗口最小化信号
     windowMinimumed = pyqtSignal()
     # 窗口最大化信号
