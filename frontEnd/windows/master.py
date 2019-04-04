@@ -51,6 +51,3 @@ class MainWindow(FramelessWindow):
                 except Exception as e:
                     print(e)
 
-
-
-
