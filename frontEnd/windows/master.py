@@ -4,7 +4,7 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QListWidgetItem, QAction
 from widgets import FramelessWindow
-from windows import HomePage, GetMachineCodeWindow, DialogCoverWindow
+from windows import HomePage, GetMachineCodeWindow, DialogCoverWindow, WebViewWindow
 
 
 class MainWindow(FramelessWindow):
@@ -22,6 +22,8 @@ class MainWindow(FramelessWindow):
         menu_1.addAction(action_1_1)
         menu_1.addAction(action_1_2)
         menu_2 = self.menuBar.setTopMenu("菜单2")
+        action_2_1 = QAction("子菜单1", self)
+        menu_2.addAction(action_2_1)
         action_3_1 = QAction("子菜单1", self)
         action_3_2 = QAction("子菜单2", self)
         action_3_3 = QAction("子菜单3", self)
@@ -31,6 +33,7 @@ class MainWindow(FramelessWindow):
         self.home = HomePage()  # 设置主页
         self.home.setListItem(QListWidgetItem("获取机器码"))  # 设置功能
         self.home.setListItem(QListWidgetItem("显示弹窗遮罩"))  # 设置功能
+        self.home.setListItem(QListWidgetItem("功能导航按钮"))  # 设置功能
         self.home.function_list.clicked.connect(self.choose_function)
         self.setWidget(self.home)  # 显示窗口内容
 
@@ -42,5 +45,12 @@ class MainWindow(FramelessWindow):
                 self.home.setView(GetMachineCodeWindow())
             elif item.text() == "显示弹窗遮罩":
                 self.home.setView(DialogCoverWindow())
+            elif item.text() == "功能导航按钮":
+                try:
+                    self.home.setView(WebViewWindow())
+                except Exception as e:
+                    print(e)
+
+
 
 

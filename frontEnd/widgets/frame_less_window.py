@@ -71,7 +71,16 @@ class MenuBar(QWidget):
         QMenuBar {
             background-color: rgb(54, 157, 180);
         }
-        
+        QMenuBar::item {
+            background-color: rgb(54, 157, 180);
+            border: none;
+            margin-right: 5px;
+            padding: 0 5px;
+            color: #FFFFFF;
+        }
+        QMenuBar::item:selected {
+            background-color: #CD3333;
+        }
         /*
         QLabel {
             background-color: rgb(54, 157, 180);
